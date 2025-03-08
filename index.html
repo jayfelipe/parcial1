@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grupos de Investigación</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script defer src="script.js"></script>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Grupos de Investigación</h1>
+        
+        <!-- Listado de Grupos de Investigación -->
+        <div id="grupos" class="mt-3">
+            <button class="btn btn-primary" onclick="mostrarGrupo('comba')">COMBA I+D</button>
+            <button class="btn btn-secondary" onclick="mostrarGrupo('gieiam')">GIEIAM</button>
+        </div>
+        <li class="nav-item">
+            <a class="btn btn-primary me-2" href="combainfo.html">Información COMBA I+D</a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-secondary" href="gieiampage.html">Información GIEIAM</a>
+        </li>
+        
+        <div id="infoGrupo" class="mt-4"></div>
+        
+        <!-- Registro de Docente -->
+        <div class="mt-4">
+            <h2>Registrar Docente Investigador</h2>
+            <form id="formDocente" onsubmit="registrarDocente(event)">
+                <input type="text" class="form-control mb-2" placeholder="Nombre" id="docenteNombre" required>
+                <input type="text" class="form-control mb-2" placeholder="Formación Académica" id="docenteFormacion" required>
+                <input type="text" class="form-control mb-2" placeholder="Horario de Atención" id="docenteHorario" required>
+                <select id="grupoDocente" class="form-control mb-2" required>
+                    <option value="comba">COMBA I+D</option>
+                    <option value="gieiam">GIEIAM</option>
+                </select>
+                <button type="submit" class="btn btn-success">Registrar</button>
+            </form>
+            <div id="listaDocentes" class="mt-3"></div>
+        </div>
+        
+        <!-- Vinculación de Estudiante -->
+        <div class="mt-4">
+            <h2>Vincular Estudiante a Semillero</h2>
+            <form id="formEstudiante" onsubmit="vincularEstudiante(event)">
+                <input type="text" class="form-control mb-2" placeholder="Nombre" id="estudianteNombre" required>
+                <input type="text" class="form-control mb-2" placeholder="Código" id="estudianteCodigo" required>
+                <input type="text" class="form-control mb-2" placeholder="Carrera" id="estudianteCarrera" required>
+                <select id="semilleroEstudiante" class="form-control mb-2" required>
+                    <option value="comba">Semillero Comba</option>
+                    <option value="informa">Semillero Informa</option>
+                </select>
+                <button type="submit" class="btn btn-success">Vincular</button>
+            </form>
+            <div id="listaEstudiantes" class="mt-3"></div>
+        </div>
+        
+        <!-- Agregar Actividad a Semillero -->
+        <div class="mt-4">
+            <h2>Agregar Actividad a Semillero</h2>
+            <form id="formActividad" onsubmit="agregarActividad(event)">
+                <input type="text" class="form-control mb-2" placeholder="Tipo de actividad" id="actividadTipo" required>
+                <input type="date" class="form-control mb-2" id="actividadFecha" required>
+                <input type="time" class="form-control mb-2" id="actividadHora" required>
+                <input type="number" class="form-control mb-2" placeholder="Límite de asistentes" id="actividadLimite" required>
+                <textarea class="form-control mb-2" placeholder="Resumen" id="actividadResumen" required></textarea>
+                <button type="submit" class="btn btn-success">Agregar</button>
+            </form>
+            <div id="listaActividades" class="mt-3"></div>
+        </div>
+    </div>
+    
+    <script>
+        function mostrarGrupo(grupo) {
+            let info = {
+                'comba': 'COMBA I+D: Grupo de investigación en desarrollo tecnológico e innovación.',
+                'gieiam': 'GIEIAM: Grupo de investigación en ingeniería ambiental y mecánica.'
+            };
+            document.getElementById('infoGrupo').innerHTML = `<div class='alert alert-info'>${info[grupo]}</div>`;
+        }
+
+        function registrarDocente(event) {
+            event.preventDefault();
+            let nombre = document.getElementById('docenteNombre').value;
+            let formacion = document.getElementById('docenteFormacion').value;
+            let horario = document.getElementById('docenteHorario').value;
+            let grupo = document.getElementById('grupoDocente').value;
+            let lista = document.getElementById('listaDocentes');
+            let item = document.createElement('div');
+            item.classList.add('alert', 'alert-success');
+            item.innerHTML = `${nombre} - ${formacion} - ${horario} (${grupo}) <button class='btn btn-danger btn-sm' onclick='this.parentElement.remove()'>X</button>`;
+            lista.appendChild(item);
+        }
+
+        function vincularEstudiante(event) {
+            event.preventDefault();
+            let nombre = document.getElementById('estudianteNombre').value;
+            let codigo = document.getElementById('estudianteCodigo').value;
+            let carrera = document.getElementById('estudianteCarrera').value;
+            let semillero = document.getElementById('semilleroEstudiante').value;
+            let lista = document.getElementById('listaEstudiantes');
+            let item = document.createElement('div');
+            item.classList.add('alert', 'alert-info');
+            item.innerHTML = `${nombre} (${codigo}) - ${carrera} - ${semillero} <button class='btn btn-danger btn-sm' onclick='this.parentElement.remove()'>X</button>`;
+            lista.appendChild(item);
+        }
+
+        function agregarActividad(event) {
+            event.preventDefault();
+            let tipo = document.getElementById('actividadTipo').value;
+            let fecha = document.getElementById('actividadFecha').value;
+            let hora = document.getElementById('actividadHora').value;
+            let limite = document.getElementById('actividadLimite').value;
+            let resumen = document.getElementById('actividadResumen').value;
+            let lista = document.getElementById('listaActividades');
+            let item = document.createElement('div');
+            item.classList.add('alert', 'alert-warning');
+            item.innerHTML = `${tipo} - ${fecha} ${hora} (Máx: ${limite}) <br> ${resumen} <button class='btn btn-danger btn-sm' onclick='this.parentElement.remove()'>X</button>`;
+            lista.appendChild(item);
+        }
+    </script>
+</body>
+</html>
